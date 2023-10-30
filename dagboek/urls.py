@@ -18,10 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from inskrywing import views as inskrywingViews
 from bladsye import views as bladsyeViews
+from gebruiker import views as gebruikerViews
 
 urlpatterns = [
     path('', bladsyeViews.tuis, name='tuis'),
     path('admin/', admin.site.urls),
     path('inskrywing/', inskrywingViews.inskrywing, name='inskrywing'),
+    path("rekeninge/", gebruikerViews.registrasie, name='registrasie'),
     path("rekeninge/", include("django.contrib.auth.urls")),
 ]
