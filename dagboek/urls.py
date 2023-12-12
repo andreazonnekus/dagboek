@@ -16,14 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from inskrywing import views as inskrywingViews
-from bladsye import views as bladsyeViews
-from gebruiker import views as gebruikerViews
+from pages import views as pageViews
+from user import views as userViews
 
 urlpatterns = [
-    path('', bladsyeViews.tuis, name='tuis'),
+    path('', pageViews.home, name='home'),
     path('admin/', admin.site.urls),
-    path('inskrywing/', inskrywingViews.inskrywing, name='inskrywing'),
-    path("rekeninge/", gebruikerViews.registrasie, name='registrasie'),
-    path("rekeninge/", include("django.contrib.auth.urls")),
+    path('signin', pageViews.sign_in, name='signin'),
+    path('signout', pageViews.sign_out, name='signout'),
+    path('callback', pageViews.callback, name='callback'),
+    path("accounts/", userViews.registration, name='registration'),
 ]

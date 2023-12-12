@@ -1,1 +1,5 @@
 .venv
+oauth_settings.yml
+
+cert.crt
+cert.key
