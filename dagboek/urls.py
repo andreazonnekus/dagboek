@@ -22,7 +22,8 @@ from user import views as userViews
 urlpatterns = [
     path('', pageViews.home, name='home'),
     path('admin/', admin.site.urls),
-    path('oidc/', include('mozilla_django_oidc.urls')),
+    path('signin', pageViews.sign_in, name='signin'),
+    path('signout', pageViews.sign_out, name='signout'),
+    path('callback', pageViews.callback, name='callback'),
     path("accounts/", userViews.registration, name='registration'),
-    #path("accounts/", include("django.contrib.auth.urls")),
 ]

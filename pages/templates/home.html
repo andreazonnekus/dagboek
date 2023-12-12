@@ -33,13 +33,13 @@
 
 {% if user.is_authenticated %}
 <p>Hi {{ user.username }}!</p>
-<form action="{% url 'oidc_logout' %}" method="post">
+<form action="{% url 'signout' %}" method="post">
   {% csrf_token %}
   <input type="submit" value="logout">
 </form>
 {% else %}
 <p>You are not logged in</p>
-<a href="{% url 'oidc_authentication_init' %}">Login</a>
+<a href="{% url 'signin' %}">Login</a>
 or <a href="{% url 'registration' %}">Register</a>
 {% endif %}
 {% endblock %}

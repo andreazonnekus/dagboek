@@ -36,11 +36,11 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'mozilla_django_oidc',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     
     'bulma',
 
@@ -135,15 +135,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-#TODO
-OIDC_RP_CLIENT_ID = os.environ.get('OIDC_RP_CLIENT_ID')
-OIDC_RP_CLIENT_SECRET = os.environ.get('OIDC_RP_CLIENT_SECRET')
-
-OIDC_RP_IDP_SIGN_KEY = "<OP signing key in PEM or DER format>"
-OIDC_OP_JWKS_ENDPOINT = "<URL of the OIDC OP jwks endpoint>"
-OIDC_OP_AUTHORIZATION_ENDPOINT = "<URL of the OIDC OP authorization endpoint>"
-OIDC_OP_TOKEN_ENDPOINT = "<URL of the OIDC OP token endpoint>"
-OIDC_OP_USER_ENDPOINT = "<URL of the OIDC OP userinfo endpoint>"
-LOGIN_REDIRECT_URL =  request.build_absolute_uri('response-oidc')
-LOGOUT_REDIRECT_URL = request.build_absolute_uri('/logout')
