@@ -26,4 +26,6 @@ urlpatterns = [
     path('signout', pageViews.sign_out, name='signout'),
     path('callback', pageViews.callback, name='callback'),
     path("accounts/", userViews.registration, name='registration'),
+    path("about/about_meitian", pageViews.about_meitian, name='about_meitian'),
+    path("about/about_me", pageViews.about_me, name='about_me'),
 ]

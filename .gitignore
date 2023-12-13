@@ -1,5 +1,7 @@
 .venv
-oauth_settings.yml
+.vscode/*
 
+oauth_settings.yml
+db*
 cert.crt
 cert.key
