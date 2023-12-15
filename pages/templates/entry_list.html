@@ -1,0 +1,14 @@
+{% extends 'child.html' %}
+
+{% block child_content %}
+
+{% for entry in object_list %}
+
+{{ entry.title }}
+{{ entry.body }}
+
+Published on {{ entry.entry_date }}
+
+{% endfor %}
+
+{% endblock %}

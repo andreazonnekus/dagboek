@@ -1,0 +1,15 @@
+{% extends 'child.html' %}
+
+{% block child_content %}
+
+{{ form.instance.title }}
+
+{{ form.as_p }}
+
+<form method="POST">
+{% csrf_token %}
+<button type="submit">Save</button>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'child.html' %}
+
+{% block child_content %}
+
+Confirm Deletion
+Are you sure you want to delete this entry?
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Delete</button>
+</form>
+<button type="submit">Cancel</button>
+{% endblock %}
