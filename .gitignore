@@ -5,3 +5,6 @@ oauth_settings.yml
 db*
 cert.crt
 cert.key
+
+__pycache__/*
+*.pyc
