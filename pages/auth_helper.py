@@ -1,12 +1,9 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-import yaml
 import msal
 
-# Load the oauth_settings.yml file
-stream = open('oauth_settings.yml', 'r', encoding='utf8')
-settings = yaml.load(stream, yaml.SafeLoader)
+from django.conf import settings
 
 def load_cache(request):
     # Check for a token cache in the session
@@ -24,9 +21,9 @@ def save_cache(request, cache):
 def get_msal_app(cache=None):
     # Initialize the MSAL confidential client
     auth_app = msal.ConfidentialClientApplication(
-        settings['app_id'],
-        authority=settings['authority'],
-        client_credential=settings['app_secret'],
+        settings.APP_ID,
+        authority=settings.AUTHORITY,
+        client_credential=settings.APP_SECRET,
         token_cache=cache)
 
     return auth_app
@@ -36,8 +33,8 @@ def get_sign_in_flow():
     auth_app = get_msal_app()
 
     return auth_app.initiate_auth_code_flow(
-        settings['scopes'],
-        redirect_uri=settings['redirect'])
+        settings.APP_SCOPES,
+        redirect_uri=settings.REDIRECT_URL)
 
 # Method to exchange auth code for access token
 def get_token_from_code(request):
@@ -71,7 +68,7 @@ def get_token(request):
     accounts = auth_app.get_accounts()
     if accounts:
         result = auth_app.acquire_token_silent(
-            settings['scopes'],
+            settings.APP_SCOPES,
             account=accounts[0])
 
         save_cache(request, cache)
