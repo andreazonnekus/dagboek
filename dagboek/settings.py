@@ -12,8 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 
+from dotenv import load_dotenv
 from pathlib import Path
 from django.http import HttpRequest as request
+
+# Load the env variables
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +32,7 @@ SECRET_KEY = 'django-insecure-orgs1e$)4vb%6#uh_)=e%n_3-u(^*_jrd^*@qev2or9n66*-fz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'localhost' ]
 
 
 # Application definition
@@ -132,3 +136,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHORITY = os.environ.get("AUTHORITY")
+APP_ID = os.environ.get("APP_ID")
+APP_SECRET = os.environ.get("APP_SECRET")
+APP_SCOPES = os.environ.get("SCOPES").split(",")
+REDIRECT_URL = os.environ.get("REDIRECT_URL") 
