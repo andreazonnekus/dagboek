@@ -1,14 +1,10 @@
-{% extends 'child.html' %}
+{% extends 'pages/child.html' %}
 
 {% block child_content %}
 
-{% for entry in object_list %}
-
 {{ entry.title }}
-{{ entry.body }}
+{{ entry.content }}
 
 Published on {{ entry.entry_date }}
-
-{% endfor %}
 
 {% endblock %}

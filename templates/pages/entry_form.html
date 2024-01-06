@@ -1,0 +1,34 @@
+{% extends 'pages/child.html' %}
+
+{% block child_content %}
+
+
+<form method="POST">
+
+    <div class="field">
+        <label class="label">{{ form.title.label_tag }}</label>
+        <div class="control">
+          <input class="input" type="text" name="title">
+        </div>
+      </div>
+      
+    <div class="field">
+      <label class="label">{{ form.content.label_tag }}</label>
+      <div class="control">
+        <input class="input" type="text" name="content">
+      </div>
+    </div>
+
+    <div class="tags">
+        {% for tag in form.tags.all %}
+            <label class="label">{{ tag.label_tag }}</label>
+            <span class="tag is-info">{{ tag }} </span>
+        {% endfor %}
+    </div>
+
+    {% csrf_token %}
+<button type="submit">Save</button>
+</form>
+
+
+{% endblock %}

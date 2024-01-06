@@ -1,48 +1,41 @@
-from django.shortcuts import render
-from django.template import loader
-from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from pages.auth_helper import (get_sign_in_flow, get_token_from_code, store_user,
-    remove_user_and_token, get_token)
+from .models import *
 
-# Create your views here.
-def home(request):
-  template = loader.get_template('home.html')
+class EntryListView(ListView):
+  model = Entry
+  queryset = Entry.objects.all().order_by("-entry_date")
 
-  return HttpResponse(template.render())
+class EntryDetailView(DetailView):
+  model = Entry
 
-def about_me(request):
-  template = loader.get_template('about_me.html')
+class EntryCreateView(SuccessMessageMixin, CreateView):
+    model = Entry
+    fields = ["title", "content"]
 
-  return HttpResponse(template.render())
+    success_message = "Created"
+    success_url = reverse_lazy("entry_list")
 
-def about_meitian(request):
-  template = loader.get_template('about_meitian.html')
+class EntryUpdateView(SuccessMessageMixin, UpdateView):
+    model = Entry
+    fields = ["title", "content"]
 
-  return HttpResponse(template.render())
+    success_message = "Updated"
+    def get_success_url(self):
+        return reverse_lazy(
+            "entry_detail",
+            kwargs={"pk": self.entry.id}
+        )
 
-def sign_in(request):
-    # Get the sign-in flow
-    flow = get_sign_in_flow()
-    # Save the expected flow so we can use it in the callback
-    request.session['auth_flow'] = flow
+class EntryDeleteView(SuccessMessageMixin, DeleteView):
+    model = Entry
 
-    # Redirect to the Azure sign-in page
-    return HttpResponseRedirect(flow['auth_uri'])
+    success_message = "Goodbye"
+    success_url = reverse_lazy("entry_list")
 
-def callback(request):
-    # Make the token request
-    result = get_token_from_code(request)
-
-    #Get the user's profile
-    user = get_user(result['access_token'])
-
-    # Store user
-    store_user(request, user)
-    return HttpResponseRedirect(reverse('home'))
-
-def sign_out(request):
-    # Clear out the user and token
-    remove_user_and_token(request)
-
-    return HttpResponseRedirect(reverse('home'))
+    def delete(self, request, *args, **kwargs):
+      messages.success(self.request, self.success_message)
+      return super().delete(request, *args, **kwargs)
