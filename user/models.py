@@ -6,8 +6,5 @@ class User(AbstractUser):
     email = models.EmailField(max_length=254)
     password = models.CharField(max_length=32)
 
- #   USERNAME_FIELD = 'username'
-
     def __str__(self) -> str:
         return self.username
-# Create your models here.

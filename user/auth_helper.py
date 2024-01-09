@@ -1,9 +1,28 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-import msal
+import msal, requests, json
 
 from django.conf import settings
+
+
+# graph helper
+graph_url = 'https://graph.microsoft.com/v1.0'
+
+def get_user(token):
+    # Send GET to /me
+    user = requests.get(
+        '{0}/me'.format(graph_url),
+        headers={
+            'Authorization': 'Bearer {0}'.format(token)
+        },
+        params={
+            # '$select': 'displayName,mail,mailboxSettings,userPrincipalName'
+            '$select': 'displayName,mail,userPrincipalName'
+        }
+    )
+    # Return the JSON result
+    return user.json()
 
 def load_cache(request):
     # Check for a token cache in the session
@@ -50,10 +69,8 @@ def get_token_from_code(request):
     return result
 
 def store_user(request, user):
-    time_zone = 'UTC'
-    if 'timeZone' in user['mailboxSettings']:
-        time_zone = user['mailboxSettings']['timeZone']
-
+    time_zone = user.get('mailboxSettings')['timeZone'] if (user.get('mailboxSettings') is not None) else 'UTC'
+    
     request.session['user'] = {
         'is_authenticated': True,
         'name': user['displayName'],

@@ -1,12 +1,11 @@
 import datetime
 
 from django.db import models
-from django.conf import settings
-from statistics import mode
-from tabnanny import verbose
 from taggit.managers import TaggableManager
+from user.models import User
 
 class Entry(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, blank=False, null=True)
     content = models.TextField(blank=False)
     visibility = models.BooleanField(blank=True, default=True)

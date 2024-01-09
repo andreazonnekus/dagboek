@@ -4,7 +4,7 @@
 
 
 <form method="POST">
-
+  <div class="card">
     <div class="field">
         <label class="label">{{ form.title.label_tag }}</label>
         <div class="control">
@@ -27,7 +27,8 @@
     </div>
 
     {% csrf_token %}
-<button type="submit">Save</button>
+    <button type="submit">Save</button>
+  </div>
 </form>
 
 
