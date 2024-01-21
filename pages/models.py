@@ -2,10 +2,10 @@ import datetime
 
 from django.db import models
 from taggit.managers import TaggableManager
-from user.models import User
+from user.models import CustomUser
 
 class Entry(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, blank=False, null=True)
     content = models.TextField(blank=False)
     visibility = models.BooleanField(blank=True, default=True)

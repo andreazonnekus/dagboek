@@ -34,7 +34,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [ 'localhost' ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'avatar',
     'taggit',
     'pages',
     'user',
@@ -61,7 +61,6 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
-
 
 ROOT_URLCONF = 'dagboek.urls'
 
@@ -125,12 +124,21 @@ USE_I18N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL= 'user.User'
+AUTH_USER_MODEL= 'user.CustomUser'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+#MEDIA_ROOT
+
+AVATAR_DEFAULT_URL = os.path.join('avatars', 'penguin_pfp.png')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

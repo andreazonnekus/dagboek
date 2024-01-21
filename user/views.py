@@ -1,43 +1,53 @@
-from django.http import HttpResponse, HttpResponseRedirect
+import msal
+
+from django.core.cache import cache
+from django.contrib import messages
 from django.urls import reverse_lazy
-from django.template import loader
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.contrib.auth.forms import UserCreationForm
 
-from user.auth_helper import get_sign_in_flow, get_token_from_code, store_user, remove_user_and_token, get_token, get_user
+from .models import CustomUser
+from .custom_auth_backend import *
 
-from .models import User
 
-def sign_in(request):
-    # Get the sign-in flow
-    flow = get_sign_in_flow()
-    # Save the expected flow so we can use it in the callback
-    request.session['auth_flow'] = flow
 
-    # Redirect to the Azure sign-in page
-    return HttpResponseRedirect(flow['auth_uri'])
+# def login(request):
 
-def callback(request):
-    # Make the token request
-    result = get_token_from_code(request)
-    #Get the user's profile
-    user = get_user(result['access_token'])
 
-    # Store user
-    store_user(request, user)
-
-    # TODO: Fix with a more secure option
-    return request.GET.get('next', 'home')
-
-def sign_out(request):
+def logout(request):
     # Clear out the user and token
     remove_user_and_token(request)
 
     return HttpResponseRedirect(reverse_lazy('home'))
 
-def registration(request):
-  template = loader.get_template('user/register.html')
-  
-  # context = {
-  #   'register': Registration.objects.all().values()
-  # }
+def msallogin(request):
+    msal_instance = MSALAuthBackend() 
 
-  return HttpResponse(template.render())
+    # Redirect to the Azure sign-in page
+    return msal_instance.init_auth(request)
+
+def callback(request):
+
+    #TODO: if msal
+    auth_code = request.GET.get('code')
+    msal_instance = MSALAuthBackend() 
+    user = msal_instance.authenticate(request, auth_code=auth_code)
+
+    if user:
+        return render(request, 'home.html')    
+    else:
+        return render(request, 'home.html')
+
+def registration(request):
+    if request.method == 'POST':
+        f = UserCreationForm(request.POST)
+        if f.is_valid():
+            f.save()
+            messages.success(request, 'Account created successfully')
+            return redirect('register')
+
+    else:
+        f = UserCreationForm()
+
+    return render(request, 'registration/register.html', {'form': f})

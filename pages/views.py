@@ -1,16 +1,14 @@
 from django.urls import reverse_lazy
 from django.http  import request
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from dagboek.mixins import CustomLoginRequiredMixin
+
 from .models import *
 
-class LockedView(LoginRequiredMixin):
-  login_url = 'signin'
-
-class EntryListView(LockedView, ListView):
+class EntryListView(CustomLoginRequiredMixin, ListView):
   model = Entry
 
   def get_queryset(self, **kwargs):
@@ -18,17 +16,17 @@ class EntryListView(LockedView, ListView):
     queryset = Entry.objects.filter(author=self.request.user.id) #.order_by("-entry_date")
     return queryset
 
-class EntryDetailView(LockedView, DetailView):
+class EntryDetailView(DetailView):
   model = Entry
 
-class EntryCreateView(LockedView, SuccessMessageMixin, CreateView):
+class EntryCreateView(SuccessMessageMixin, CreateView):
   model = Entry
   fields = ["title", "content", "tags"]
 
   success_message = "Created"
   success_url = reverse_lazy("entry_list")
 
-class EntryUpdateView(LockedView, SuccessMessageMixin, UpdateView):
+class EntryUpdateView(SuccessMessageMixin, UpdateView):
   model = Entry
   fields = ["title", "content", "tags"]
 
@@ -39,7 +37,7 @@ class EntryUpdateView(LockedView, SuccessMessageMixin, UpdateView):
           kwargs={"pk": self.entry.id}
       )
 
-class EntryDeleteView(LockedView, SuccessMessageMixin, DeleteView):
+class EntryDeleteView(SuccessMessageMixin, DeleteView):
   model = Entry
 
   success_message = "Goodbye"

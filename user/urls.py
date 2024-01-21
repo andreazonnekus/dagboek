@@ -1,9 +1,13 @@
 from django.urls import path, include
 from . import views
 
+app_name = 'user'
+
 urlpatterns = [
-    path('signin', views.sign_in, name='signin'),
-    path('signout', views.sign_out, name='signout'),
+    # path('login', views.login, name='login'),
+    # path('logout', views.logout, name='logout'),
+    path('', include("django.contrib.auth.urls")),
+    path('msallogin', views.msallogin, name='msal_login'),
     path('callback', views.callback, name='callback'),
-    path("accounts/", views.registration, name='registration'),
+    path('registration', views.registration, name='registration'),
 ]

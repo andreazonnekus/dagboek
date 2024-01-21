@@ -10,7 +10,7 @@ class Entry(forms.ModelForm):
     visibility = models.BooleanField(label = "Visibility", blank=True, default=True)
     # category = models.CharField(label = "Category", max_length=50, blank=True, null=True, choices=constants.CATEGORY_CHOICES)
     # language = models.CharField(label = "Language", max_length=2, blank=True, null=True, choices=settings.LANGUAGE_CHOICES)
-    language = TaggableManager()
+    tags = TaggableManager()
     entry_date = models.DateField(label = "Date", blank=True, default=datetime.datetime.now)
 
     class Meta:
