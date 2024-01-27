@@ -61,13 +61,3 @@ class MSALAuthBackend(ModelBackend):
             user, created = User.objects.get_or_create_user(username = claims.get('preferred_username'), access_token = access_token)
 
         return user
-        # time_zone = user.get('mailboxSettings')['timeZone'] if (user.get('mailboxSettings') is not None) else 'UTC'
-    
-        # request.session['user'] = {
-        #     'is_authenticated': True,
-        #     'name': user['displayName'],
-        #     'email': user['mail'] if (user['mail'] is not None) else user['userPrincipalName'],
-        #     'timeZone': time_zone
-        # }
-
-        # request.session.modified = True
