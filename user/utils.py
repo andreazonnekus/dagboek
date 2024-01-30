@@ -9,6 +9,8 @@ from django.conf import settings
 # graph helper
 graph_url = 'https://graph.microsoft.com/v1.0'
 
+is_email = lambda email: email.__contains__('@') and email.__contains__('.') 
+
 def get_user(token):
     # Send GET to /me
     user = requests.get(

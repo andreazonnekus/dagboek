@@ -7,7 +7,6 @@ from django.http import HttpRequest
 from msal import ConfidentialClientApplication
 
 from .utils import *
-from .models import CustomUser
 
 class MSALAuthBackend(ModelBackend):
     # def authenticate(self, request: Optional[HttpRequest], **kwargs: Any) -> Optional[AbstractBaseUser]:
@@ -38,26 +37,46 @@ class MSALAuthBackend(ModelBackend):
             user = self.get_or_create_user(
                 request = request,
                 claims = token_response.get('id_token_claims', {}),
-                access_token = token_response['access_token'])
+                # access_token = token_response.get('access_token')
+                )
             self.msal_login(request, user)
             return user
 
         return None
     
     def msal_login(self, request, user):
+        time_zone = user.get('mailboxSettings')['timeZone'] if (user.get('mailboxSettings') is not None) else 'UTC'
+    
+        request.session['user'] = {
+            'is_authenticated': True,
+            'name': user['displayName'],
+            'email': user['mail'] if (user['mail'] is not None) else user['userPrincipalName'],
+            'timeZone': time_zone
+        }
+
+        request.session.modified = True
 
         pass
 
-    def get_or_create_user(self, request, claims, access_token):
+    def get_or_create_user(self, request, claims):
         User = get_user_model()
 
+        print(User)
+
+        print(f'{claims}')
         # If the user is authenticated, return
         if request.user.is_authenticated:
             return request.user
-        
-        if 'email' in claims:
-            user, created = User.objects.get_or_create_user(email = claims.get('email'), access_token = access_token)
-        elif 'preferred_username' in claims:
-            user, created = User.objects.get_or_create_user(username = claims.get('preferred_username'), access_token = access_token)
+        try:
+            if 'email' in claims:
+                user = User.objects.get(email = claims.get('email').split('#')[0])
+            elif 'preferred_username' in claims:
+                if is_email(claims.get('preferred_username')):
+                    user = User.objects.get(email = claims.get('preferred_username'))
+                else:
+                    user = User.objects.get(username = claims.get('preferred_username'))
+            return user
+        except User.DoesNotExist:
+            print('dont exist')
 
-        return user
+        return None
