@@ -11,7 +11,7 @@ from .utils import *
 class MSALAuthBackend(ModelBackend):
     # def authenticate(self, request: Optional[HttpRequest], **kwargs: Any) -> Optional[AbstractBaseUser]:
     def init_auth(self, request: HttpRequest, **kwargs: Any):
-        # Check for a token cache in the session
+
         cache = load_cache(request)
         auth_app = get_msal_app()
         
@@ -22,6 +22,7 @@ class MSALAuthBackend(ModelBackend):
         return redirect(auth_url)
 
     def authenticate(self, request: HttpRequest, auth_code=None, **kwargs: Any):
+
         if auth_code is None:
             return None
 
@@ -35,9 +36,9 @@ class MSALAuthBackend(ModelBackend):
 
         if 'access_token' and 'id_token_claims' in token_response:
             user = self.get_or_create_user(
+                is_msal = True,
                 request = request,
-                claims = token_response.get('id_token_claims', {}),
-                # access_token = token_response.get('access_token')
+                token_response = token_response
                 )
             self.msal_login(request, user)
             return user
@@ -45,38 +46,45 @@ class MSALAuthBackend(ModelBackend):
         return None
     
     def msal_login(self, request, user):
-        time_zone = user.get('mailboxSettings')['timeZone'] if (user.get('mailboxSettings') is not None) else 'UTC'
+
+
+        # time_zone = user.get('mailboxSettings')['timeZone'] if (user.get('mailboxSettings') is not None) else 'UTC'
     
-        request.session['user'] = {
-            'is_authenticated': True,
-            'name': user['displayName'],
-            'email': user['mail'] if (user['mail'] is not None) else user['userPrincipalName'],
-            'timeZone': time_zone
-        }
+        # request.session['user'] = {
+        #     'is_authenticated': True,
+        #     'name': user['displayName'],
+        #     'email': user['mail'] if (user['mail'] is not None) else user['userPrincipalName'],
+        #     'timeZone': time_zone
+        # }
 
         request.session.modified = True
 
         pass
 
-    def get_or_create_user(self, request, claims):
+    def get_or_create_user(self, is_msal, request, token_response):
         User = get_user_model()
 
-        print(User)
+        # claims = token_response.get('id_token_claims', {}),
+        # get('access_token')
 
-        print(f'{claims}')
+        # Get information from MSAL Graph
+
+        # print(f'claims {claims}')
         # If the user is authenticated, return
         if request.user.is_authenticated:
             return request.user
-        try:
+
             if 'email' in claims:
-                user = User.objects.get(email = claims.get('email').split('#')[0])
-            elif 'preferred_username' in claims:
-                if is_email(claims.get('preferred_username')):
-                    user = User.objects.get(email = claims.get('preferred_username'))
-                else:
-                    user = User.objects.get(username = claims.get('preferred_username'))
+                email = claims.get('email').split('#')[0] if is_email(claims.get('email').split('#')[0]) else None
+            
+            if 'preferred_username' in claims:
+                if not email:
+                    email = claims.get('preferred_username') if is_email(claims.get('preferred_username')) else None
+                uname = claims.get('preferred_username') if not is_email(claims.get('preferred_username')) else None
+            
+            if email:
+                user = User.objects.get_or_create(email = email, username = uname)
+        if user:
             return user
-        except User.DoesNotExist:
-            print('dont exist')
 
         return None

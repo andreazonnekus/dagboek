@@ -40,6 +40,7 @@ def callback(request):
         return render(request, 'home.html')
 
 def registration(request):
+    print(request.session)
     if request.method == 'POST':
         f = UserCreationForm(request.POST)
         if f.is_valid():
