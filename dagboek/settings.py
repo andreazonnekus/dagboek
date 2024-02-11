@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_simple_bulma',
     'avatar',
     'taggit',
     'pages',
@@ -129,16 +130,25 @@ AUTH_USER_MODEL = 'user.CustomUser'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / 'assets'
 ]
 
-#MEDIA_ROOT
+STATICFILE_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 
-AVATAR_DEFAULT_URL = os.path.join('avatars', 'penguin_pfp.png')
+    'django_simple_bulma.finders.SimpleBulmaFinder'
+]
 
+NAVBAR_IMG = os.path.join('img', 'peng.png')
+AVATAR_DEFAULT_URL = os.path.join('img', 'avatars', 'peng_back.png')
+
+BULMA_SETTINGS = { "extensions": [ 'all' ] }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
