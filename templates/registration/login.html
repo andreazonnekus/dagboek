@@ -1,56 +1,53 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
 
-{% block title %}
-<head>
-  <title>Login</title>
-</head>
-{% endblock %}
+{% block title %}{% include "head.html" with title='login' %}{% endblock %}
 
 {% block content %}
+
 <body>
   <section class="section">
-    <div class="login-container">
-      <div class="columns">
-
-        <div class="column" style="background-color:lightsteelblue; flex: none;">
-          <h2 class="">Log In</h2>
-          <form method="post">
-            {% csrf_token %}
-            <div class="field">
-              <p class="control has-icons-left has-icons-right">
-                <input class="input" type="email" placeholder="Email">
-                <span class="icon is-small is-left">
-                  <i class="fas fa-envelope"></i>
-                </span>
-                <span class="icon is-small is-right">
-                  <i class="fas fa-check"></i>
-                </span>
-              </p>
-            </div>
-            <div class="field">
-              <p class="control has-icons-left">
-                <input class="input" type="password" placeholder="Password">
-                <span class="icon is-small is-left">
-                  <i class="fas fa-lock"></i>
-                </span>
-              </p>
-            </div>
-            <div class="buttons"><button class="is-button is-primary" type="submit">Log In</button></div>
+    <div>
+      <div class="login-container">
+        <div class="login-card">
+          <div style="text-align: center;">
+            <h2 class="">Log In</h2>
+            <form method="post">
+              {% csrf_token %}
+              <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                  <input class="input" type="email" placeholder="Email">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control has-icons-left">
+                  <input class="input" type="password" placeholder="Password">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="buttons"><button class="is-button is-primary" type="submit">Log In</button></div>
+            </form>
           </div>
-          </form>
         </div>
 
-        <div class="column" style="width: 50%;">
+        <div class="column is-left" style="width: 60px;">
           <div class="is-divider-vertical" data-content="OR"></div>
         </div>
 
-        <div class="column" style="background-color:lightsteelblue; flex: none;">
+        <div class="login-card">
           <form action="{% url 'user:msal_login' %}" method="post">
             {% csrf_token %}
             <div class="buttons"><button class="is-button is-primary" type="submit">MSFT</button></div>
           </form>
         </div>
-
       </div>
     </div>
   </section>

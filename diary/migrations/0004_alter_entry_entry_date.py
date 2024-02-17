@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pages', '0003_initial'),
+        ('diary', '0003_initial'),
     ]
 
     operations = [

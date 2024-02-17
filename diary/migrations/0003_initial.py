@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('pages', '0002_delete_entry'),
+        ('diary', '0002_delete_entry'),
     ]
 
     operations = [

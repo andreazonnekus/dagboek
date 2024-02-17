@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('pages', '0010_rename_language_entry_tags'),
+        ('diary', '0010_rename_language_entry_tags'),
     ]
 
     operations = [

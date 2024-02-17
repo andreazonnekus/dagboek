@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
-
 from dotenv import load_dotenv
 from pathlib import Path
 from django.http import HttpRequest as request
@@ -43,11 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_extensions',
     'django_simple_bulma',
+    'django_extensions',
     'avatar',
     'taggit',
-    'pages',
+    'diary',
     'user',
 ]
 

@@ -10,8 +10,6 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
 from .custom_auth_backend import *
 
-
-
 # def login(request):
 
 
@@ -23,17 +21,22 @@ def logout(request):
 
 def msallogin(request):
     msal_instance = MSALAuthBackend() 
+    auth_app = get_msal_app()
 
     # Redirect to the Azure sign-in page
-    return msal_instance.init_auth(request)
+    return msal_instance.init_auth(request, auth_app)
 
 def callback(request):
 
     #TODO: if msal
     auth_code = request.GET.get('code')
-    msal_instance = MSALAuthBackend() 
-    user = msal_instance.authenticate(request, auth_code=auth_code)
+    auth_app = get_msal_app()
 
+    msal_instance = MSALAuthBackend() 
+    user = msal_instance.authenticate(request, auth_app, auth_code=auth_code)
+
+    request.session.modified = True
+    print(request.user)
     if user:
         return render(request, 'home.html')    
     else:

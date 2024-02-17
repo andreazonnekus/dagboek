@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pages', '0006_alter_entry_category'),
+        ('diary', '0006_alter_entry_category'),
     ]
 
     operations = [

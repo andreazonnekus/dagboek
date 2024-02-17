@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pages', '0004_alter_entry_entry_date'),
+        ('diary', '0004_alter_entry_entry_date'),
     ]
 
     operations = [
