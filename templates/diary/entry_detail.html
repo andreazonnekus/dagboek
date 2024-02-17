@@ -1,0 +1,37 @@
+{% extends 'diary/child.html' %}
+
+{% block child_content %}
+<div class="columns">
+    <div class="button column">
+
+    </div>
+    <div class="card column">
+        <header class="card-header">
+            <div class="card-header-title">
+                {{ entry.title }}
+            </div>
+        </header>
+        
+        <div class="card-content">
+            <div class="content" style="font-style: italic;">
+                {{ entry.content }}
+            </div>
+
+            <div class="tags columns">
+                <div class="column">
+                    <label class="label">{{ tag.label_tag }}</label>
+                    {% for tag in entry.tags.all %}
+                        <span class="tag is-info">{{ tag }} </span>
+                    {% endfor %}
+                    <br\>
+                </div>
+                <div class="is-divider-vertical"></div>
+                <div><p class="content is-small column"> Published on <time>{{ entry.entry_date }}</time></p></div>
+            </div>
+        </div>
+    </div>
+    <div class="button column">
+        
+    </div>
+</div>
+{% endblock %}

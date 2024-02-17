@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="columns">
+  <div class="column">
+    <body>
+      <section class="section">
+        <div class="container">
+          <h1 class="title">{{ request.user.email }}
+          </h1>
+          <p class="paragraph">
+            My first website!
+          </p>
+
+        </div>
+      </section>
+    </body>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,5 +1,14 @@
 .venv
-oauth_settings.yml
+.vscode/*
+.env
 
+oauth_settings.yml
+db*
 cert.crt
 cert.key
+
+__pycache__/*
+*.pyc
+
+img/*
+static/*
