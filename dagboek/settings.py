@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
-
 from dotenv import load_dotenv
 from pathlib import Path
 from django.http import HttpRequest as request
@@ -33,8 +32,6 @@ SECRET_KEY = 'django-insecure-orgs1e$)4vb%6#uh_)=e%n_3-u(^*_jrd^*@qev2or9n66*-fz
 DEBUG = True
 
 ALLOWED_HOSTS = [ 'localhost' ]
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,8 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_simple_bulma',
     'django_extensions',
-    'pages',
+    'avatar',
+    'taggit',
+    'diary',
     'user',
 ]
 
@@ -59,16 +59,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-AUTHENTICATION_BACKENDS = (
-    'mozilla_django_oidc.auth.OIDCAuthenticationBackend'
-)
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
 ROOT_URLCONF = 'dagboek.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ os.path.join(BASE_DIR, 'templates') ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -90,7 +88,7 @@ WSGI_APPLICATION = 'dagboek.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -125,12 +123,30 @@ USE_I18N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL= 'user.User'
+AUTH_USER_MODEL = 'user.CustomUser'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'assets'
+]
+
+STATICFILE_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+
+    'django_simple_bulma.finders.SimpleBulmaFinder'
+]
+
+NAVBAR_IMG = os.path.join('img', 'peng.png')
+AVATAR_DEFAULT_URL = os.path.join('img', 'avatars', 'peng_back.png')
+
+BULMA_SETTINGS = { "extensions": [ 'all' ] }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -141,4 +157,4 @@ AUTHORITY = os.environ.get("AUTHORITY")
 APP_ID = os.environ.get("APP_ID")
 APP_SECRET = os.environ.get("APP_SECRET")
 APP_SCOPES = os.environ.get("SCOPES").split(",")
-REDIRECT_URL = os.environ.get("REDIRECT_URL") 
+REDIRECT_URL = os.environ.get("REDIRECT_URL")

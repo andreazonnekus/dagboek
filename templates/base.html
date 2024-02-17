@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<head>
+  {% load static %}
+  {% load django_simple_bulma %}
+  {% bulma %}
+  {% load avatar_tags %}
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  {% block title %}{% include "head.html" with title='meitian' %}{% endblock %}
+</head>
+
+<body>
+  <div>
+    <nav class="navbar mt-4 is-active is-transparent is-info" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        </a>
+        <a class="navbar-item">
+          Home
+        </a>
+      </div>
+      
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+      
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <div class="navbar-item has-dropdown is-hoverable">
+            {% if request.user.is_authenticated %}
+            <a class="navbar-link" href="{% url 'diary:entry_list' %}">
+              Diary
+            </a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="{% url 'about_me' %}">
+                About me
+              </a>
+            </div>
+          </div>
+          {% endif %}
+          
+          <a class="navbar-item">
+            Documentation
+          </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              About
+            </a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="{% url 'about_me' %}">
+                About me
+              </a>
+            </div>
+          </div>
+
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              More
+            </a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item">
+                Report an issue
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              {% if request.user.is_authenticated %}
+              <form action="{% url 'user:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" value="logout" class="button is-primary">Logout</button>
+              </form>
+              {% else %}
+              <a class="button is-primary">
+                <strong>Sign up</strong>
+              </a>
+              <a class="button is-light" href="{% url 'user:login' %}">
+                Login
+              </a>
+              {% endif %}
+            </div>
+          </div>
+          {% if request.user.is_authenticated %}
+          <figure class="image is-128x128">{% avatar user class="is-rounded" %}
+          </figure>
+          {% else %}
+          <figure class="image is-128x128">{% avatar avatar class="is-rounded" %}
+          </figure>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+  </div>
+</body>
+<body>
+  {% block content %}
+  Content goes here...
+  {% endblock content %}
+</body>
+<footer class="custom-footer">
+  <div class="has-text-centered">
+    <p>
+      <a style="color: black;">By Andrea Zonnekus</a>
+    </p>
+  </div>
+</footer>

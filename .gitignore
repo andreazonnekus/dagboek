@@ -9,3 +9,6 @@ cert.key
 
 __pycache__/*
 *.pyc
+
+img/*
+static/*
