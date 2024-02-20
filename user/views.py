@@ -5,13 +5,22 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import CreateView
 
+
+from .forms import *
 from .models import CustomUser
 from .custom_auth_backend import *
 
-# def login(request):
+class CustomUserCreateView(CreateView):
+    model = CustomUser
+    form_class = CustomUserCreationForm
+    template_name = 'registration/register.html'
 
+    def get_absolute_url(self):
+        return 'home.html'
+
+# def login(request):
 
 def logout(request):
     # Clear out the user and token
@@ -37,21 +46,18 @@ def callback(request):
 
     request.session.modified = True
     print(request.user)
-    if user:
-        return render(request, 'home.html')    
-    else:
-        return render(request, 'home.html')
+    return HttpResponseRedirect(reverse_lazy('home'))
 
-def registration(request):
-    print(request.session)
-    if request.method == 'POST':
-        f = UserCreationForm(request.POST)
-        if f.is_valid():
-            f.save()
-            messages.success(request, 'Account created successfully')
-            return redirect('register')
+# def signup(request):
+#     print(request.session)
+#     if request.method == 'POST':
+#         f = CustomUserCreationForm(request.POST)
+#         if f.is_valid():
+#             f.save()
+#             messages.success(request, 'Account created successfully')
+#             return redirect('register')
 
-    else:
-        f = UserCreationForm()
+#     else:
+#         f = CustomUserCreationForm()
 
-    return render(request, 'registration/register.html', {'form': f})
+#     return render(request, 'registration/register.html', {'form': f})

@@ -9,5 +9,6 @@ urlpatterns = [
     path('', include("django.contrib.auth.urls")),
     path('msallogin', views.msallogin, name='msal_login'),
     path('callback', views.callback, name='callback'),
-    path('registration', views.registration, name='registration'),
+    # path('signup', views.sign_up, name='registration'),
+    path('signup', views.CustomUserCreateView.as_view(), name='registration'),
 ]

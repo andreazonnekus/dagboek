@@ -5,7 +5,6 @@
   {% bulma %}
   {% load avatar_tags %}
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  {% block title %}{% include "head.html" with title='meitian' %}{% endblock %}
 </head>
 
 <body>
@@ -33,7 +32,7 @@
             <a class="navbar-link" href="{% url 'diary:entry_list' %}">
               Diary
             </a>
-            <div class="navbar-dropdown">
+            <div class="navbar  -dropdown">
               <a class="navbar-item" href="{% url 'about_me' %}">
                 About me
               </a>
@@ -76,11 +75,11 @@
                 <button type="submit" value="logout" class="button is-primary">Logout</button>
               </form>
               {% else %}
-              <a class="button is-primary">
+              <a class="button is-primary" href="{% url 'user:registration' %}">
                 <strong>Sign up</strong>
               </a>
               <a class="button is-light" href="{% url 'user:login' %}">
-                Login
+                Sign in
               </a>
               {% endif %}
             </div>

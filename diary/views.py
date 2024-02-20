@@ -5,8 +5,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from dagboek.mixins import CustomLoginRequiredMixin
-
 from .models import *
 
 class EntryListView(LoginRequiredMixin, ListView):
@@ -14,7 +12,6 @@ class EntryListView(LoginRequiredMixin, ListView):
 
   def get_queryset(self, **kwargs):
     queryset = super(EntryListView, self).get_queryset()
-    print(self.request.user)
     queryset = Entry.objects.filter(author=self.request.user.id) #.order_by("-entry_date")
     return queryset
 
