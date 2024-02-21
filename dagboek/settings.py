@@ -143,6 +143,10 @@ STATICFILE_FINDERS = [
     'django_simple_bulma.finders.SimpleBulmaFinder'
 ]
 
+LOGIN_URL = 'user:signin'
+LOGIN_REDIRECT_URL = 'diary:entry_list'
+LOGOUT_REDIRECT_URL = 'home'
+
 NAVBAR_IMG = os.path.join('img', 'peng.png')
 AVATAR_DEFAULT_URL = os.path.join('img', 'avatars', 'peng_back.png')
 

@@ -23,7 +23,12 @@ class EntryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
   fields = ["title", "content", "tags"]
 
   success_message = "Created"
-  success_url = reverse_lazy("entry_list")
+  # success_url = reverse_lazy('home')
+  def get_success_url(self):
+      return reverse_lazy(
+          "entry_detail",
+          kwargs={"pk": self.entry.id}
+      )
 
 class EntryUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
   model = Entry
@@ -36,7 +41,7 @@ class EntryUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
           kwargs={"pk": self.entry.id}
       )
 
-class EntryDeleteView(SuccessMessageMixin, DeleteView):
+class EntryDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
   model = Entry
 
   success_message = "Goodbye"

@@ -16,14 +16,20 @@ class UserManager(AbstractUserManager):
 class CustomUser(AbstractUser):
     username = models.CharField(unique=True, max_length=80)
     email = models.EmailField(unique=True, max_length=254)
+    # user_auth_type = models.CharField(choices = )
     # avatar = AvatarField(upload_to='avatars/', default='')
 
     first_name = models.CharField(blank=True, max_length=80)
     last_name = models.CharField(blank=True, max_length=80)
     # timezone = 
-    birthdate =  models.DateField(blank=True)
+    birthdate =  models.DateField(blank=True, null=True)
     # preferred_language = models.
     def __str__(self) -> str:
         return self.username
 
+    # def get_absolute_url(self):
+    #     print(self)
+    #     from django.urls import reverse
+    #     return reverse('user:signin')
+    
         

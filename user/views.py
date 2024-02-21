@@ -2,11 +2,10 @@ import msal
 
 from django.core.cache import cache
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView
-
+from django.contrib.auth import authenticate, login, logout, views
 
 from .forms import *
 from .models import CustomUser
@@ -15,18 +14,28 @@ from .custom_auth_backend import *
 class CustomUserCreateView(CreateView):
     model = CustomUser
     form_class = CustomUserCreationForm
-    template_name = 'registration/register.html'
+    template_name = 'user/signup.html'
+    success_url = settings.LOGIN_REDIRECT_URL
 
-    def get_absolute_url(self):
-        return 'home.html'
+    def form_valid(self, form):
+        user = form.save()
 
-# def login(request):
+        if user is not None:
+            login(self.request, user)
+            return redirect(self.success_url)
 
-def logout(request):
-    # Clear out the user and token
-    remove_user_and_token(request)
+        return redirect(self.success_url)
 
-    return HttpResponseRedirect(reverse_lazy('home'))
+class CustomSigninView(views.LoginView):
+    template_name = 'user/signin.html'
+    redirect_authenticated_user = True
+
+class CustomSignOutView(views.LogoutView):
+    template_name = 'user/signout.html'
+    
+    def form_valid(self, form):
+        remove_user_and_token(request)
+        logout(request)
 
 def msallogin(request):
     msal_instance = MSALAuthBackend() 
@@ -42,22 +51,4 @@ def callback(request):
     auth_app = get_msal_app()
 
     msal_instance = MSALAuthBackend() 
-    user = msal_instance.authenticate(request, auth_app, auth_code=auth_code)
-
-    request.session.modified = True
-    print(request.user)
-    return HttpResponseRedirect(reverse_lazy('home'))
-
-# def signup(request):
-#     print(request.session)
-#     if request.method == 'POST':
-#         f = CustomUserCreationForm(request.POST)
-#         if f.is_valid():
-#             f.save()
-#             messages.success(request, 'Account created successfully')
-#             return redirect('register')
-
-#     else:
-#         f = CustomUserCreationForm()
-
-#     return render(request, 'registration/register.html', {'form': f})
+    msal_instance.authenticate(request, auth_app, auth_code=auth_code)
