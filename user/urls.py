@@ -5,7 +5,6 @@ from . import views
 app_name = 'user'
 
 urlpatterns = [
-    # path('signin', views.signin, name='signin'),
     path('signin', views.CustomSigninView.as_view(), name='signin'),
     path('signout', views.CustomSignOutView.as_view(), name='signout'),
     path('msallogin', views.msallogin, name='msal_login'),

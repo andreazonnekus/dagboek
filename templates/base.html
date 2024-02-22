@@ -70,16 +70,28 @@
           <div class="navbar-item">
             <div class="buttons">
               {% if request.user.is_authenticated %}
+<<<<<<< HEAD
               <form action="{% url 'user:signout' %}" method="post">
+=======
+              <form action="{% url 'user:logout' %}" method="post">
+>>>>>>> e2140980b7227305c98090259a5e1b4aa97fff64
                 {% csrf_token %}
                 <button type="submit" value="logout" class="button is-primary">Logout</button>
               </form>
               {% else %}
+<<<<<<< HEAD
               <a class="button is-primary" href="{% url 'user:signup' %}">
                 <strong>Sign up</strong>
               </a>
               <a class="button is-light" href="{% url 'user:signin' %}">
                 Sign in
+=======
+              <a class="button is-primary">
+                <strong>Sign up</strong>
+              </a>
+              <a class="button is-light" href="{% url 'user:login' %}">
+                Login
+>>>>>>> e2140980b7227305c98090259a5e1b4aa97fff64
               </a>
               {% endif %}
             </div>

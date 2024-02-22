@@ -32,4 +32,8 @@ class CustomUser(AbstractUser):
     #     from django.urls import reverse
     #     return reverse('user:signin')
     
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(CustomUser)
+#     avatar = models.ImageField
         
