@@ -54,9 +54,3 @@ def get_msal_app(cache=None):
 def remove_user_and_token(request):
     if 'token_cache' in request.session:
         del request.session['token_cache']
-
-    if 'user' in request.session:
-        del request.session['user']
-    
-    # if 'sessionid' in request.session:
-    #     del request.session['sessionid']

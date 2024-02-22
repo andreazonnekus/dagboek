@@ -1,13 +1,14 @@
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
 from . import views
 
 app_name = 'user'
 
 urlpatterns = [
-    # path('login', views.login, name='login'),
-    # path('logout', views.logout, name='logout'),
-    path('', include("django.contrib.auth.urls")),
+    path('signin', views.CustomSigninView.as_view(), name='signin'),
+    path('signout', views.CustomSignOutView.as_view(), name='signout'),
     path('msallogin', views.msallogin, name='msal_login'),
     path('callback', views.callback, name='callback'),
-    path('registration', views.registration, name='registration'),
+    path('signup', views.CustomUserCreateView.as_view(), name='signup'),
+    # TODO: replacement for all default auth views
 ]
