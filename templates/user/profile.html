@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+
+<head>
+{% extends 'base.html' %}
+{% block title %}{% include "head.html" with title='profile' %}{% endblock %}
+</head>
+
+Hello {{ request.user.email }}
+
+<!-- has_usable_password() -->

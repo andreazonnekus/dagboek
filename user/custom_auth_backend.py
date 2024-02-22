@@ -51,17 +51,13 @@ class MSALAuthBackend(ModelBackend):
             if email:
                 try:
                     user = User.objects.get(email = email)
-                    print('existing', user)
                 except User.DoesNotExist:
-                    # TODO: User flow from here? directly to profile or quickstart?
+                    # TODO: Consider moving this out to a separate function
                     user = User(email = email)
                     user.is_staff = False
                     user.is_superuser = False
+                    user.set_unusable_password()
                     user.save()
-                    print('new', user)
                 
                 if user:
                     login(request, user)
-                    return user
-            
-        return None

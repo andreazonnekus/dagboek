@@ -1,6 +1,9 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
 
-{% block title %}Register{% endblock %}
+<head>
+{% extends "base.html" %}
+{% block title %}{% include "head.html" with title='sign up' %}{% endblock %}
+</head>
 
 {% block content %}
 <h2>Sign Up</h2>
