@@ -5,42 +5,45 @@
 <body>
   <section class="section">
     <div class="container">
-      <form method="POST">
+      <form method="post">
         {% csrf_token %}
         <div class="field">
           <p class="control">
-            <input class="input" type="text" name="title" placeholder="{{ form.title.label }}">
+            <input id="title" class="input" type="text" name="title" placeholder="{{ form.title.label }}">
           </p>
         </div>
 
         <div class="field">
           <p class="control">
-            <textarea class="textarea" type="text" name="content" rows=15
+            <textarea id="content" class="textarea" type="text" name="content" rows=15
               placeholder="{{ form.content.label }}"></textarea>
           </p>
         </div>
 
         <div class="tags">
-          </p>
-            {% for tag in form.tags.all %}
-              <label class="label">{{ tag.label_tag }}</label>
-              <span class="tag is-info">{{ tag }} </span>
-            {% endfor %}
+          <input id="tags" type="text" name="tags" placeholder="{{ form.tags.label }}">
         </div>
 
         <div class="buttons"><button class="button is-info" type="submit">Save</button></div>
       </form>
+      {% if form.errors %}
+      <ol>
+        {% for error in form.errors %}
+        <li><strong>{{ error|escape }}</strong></li>
+        {% endfor %}
+      </ol>
+      {% endif %}
       {% if entry %}
-        <a href="{% url 'diary:entry_detail' entry.id %}">
-            <button>Cancel</button>
-        </a>
-        <a href="{% url 'diary:entry_delete' entry.id %}">
-            <button>Delete</button>
-        </a>
+      <a href="{% url 'diary:entry_detail' entry.id %}">
+        <button>Cancel</button>
+      </a>
+      <a href="{% url 'diary:entry_delete' entry.id %}">
+        <button>Delete</button>
+      </a>
       {% else %}
-        <a href="{% url 'diary:entry_list' %}">
-            <button>Back</button>
-        </a>
+      <a href="{% url 'diary:entry_list' %}">
+        <button>Back</button>
+      </a>
       {% endif %}
     </div>
   </section>

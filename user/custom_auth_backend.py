@@ -58,18 +58,6 @@ class MSALAuthBackend(ModelBackend):
                     user.is_superuser = False
                     user.set_unusable_password()
                     user.save()
-                
-                if user:
-                    login(request, user)
-                except User.DoesNotExist:
-                    # TODO: User flow from here? directly to profile or quickstart?
-                    user = User(email = email)
-                    user.is_staff = False
-                    user.is_superuser = False
-                    user.save()
-                    print('new', user)
-                
-                if user:
                     login(request, user)
                     return user
             

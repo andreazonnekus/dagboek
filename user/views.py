@@ -36,6 +36,9 @@ class CustomSignOutView(views.LogoutView):
     def form_valid(self, form):
         remove_user_and_token(request)
         logout(request)
+    # def post(self, request, *args, **kwargs):
+    #     remove_user_and_token(request)
+    #     logout(request)
 
 def msallogin(request):
     msal_instance = MSALAuthBackend() 

@@ -1,4 +1,9 @@
+
+<!DOCTYPE html>
+<head>
 {% extends 'diary/child.html' %}
+{% block title %}{% include "head.html" with title='entry: {{ entry.title }}' %}{% endblock %}
+</head>
 
 {% block child_content %}
 <div class="columns">

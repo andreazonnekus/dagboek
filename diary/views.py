@@ -1,11 +1,13 @@
 from django.urls import reverse_lazy
-from django.http  import request
+from django.http import request
+from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .models import *
+from .forms import EntryForm
 
 class EntryListView(LoginRequiredMixin, ListView):
   model = Entry
@@ -20,21 +22,35 @@ class EntryDetailView(LoginRequiredMixin, DetailView):
 
 class EntryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
   model = Entry
-  fields = ["title", "content", "tags"]
+  form_class = EntryForm
 
   success_message = "Created"
-  # success_url = reverse_lazy('home')
-  def get_success_url(self):
-      return reverse_lazy(
-          "entry_detail",
-          kwargs={"pk": self.entry.id}
-      )
+
+  def post(self, request, *args, **kwargs):
+    print(request.POST)
+
+    form = self.form_class(request.POST)
+    # data = request.POST
+    if form.is_valid():
+        title = form.cleaned_data.get('title')
+        content = form.cleaned_data.get('content')
+        tags = form.cleaned_data.get('tags')
+        entry = Entry.objects.create(title = title, content = content, tags = tags, author = request.user)
+        entry.save()
+
+        return redirect(
+          'diary:entry_detail',
+          pk = entry.id
+        )
+    else:
+      return render(request, 'diary:entry_list', {form: form})
+
 
 class EntryUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
   model = Entry
-  fields = ["title", "content", "tags"]
-
+  form_class = EntryForm
   success_message = "Updated"
+  
   def get_success_url(self):
       return reverse_lazy(
           "entry_detail",

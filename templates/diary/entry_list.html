@@ -1,38 +1,13 @@
+<!DOCTYPE html>
+<head>
 {% extends 'diary/child.html' %}
+{% block title %}{% include "head.html" with title='entries' %}{% endblock %}
+</head>
 
 {% block child_content %}
 
 {% for entry in object_list %}
-    <div class="card">
-        <header class="card-header">
-            <div class="columns">
-                <div class="card-header-title column">
-                    <a class="is-link" href="{% url 'diary:entry_detail' entry.id %}">
-                        {{ entry.title }}
-                    </a>
-                </div>
-                <div class="is-divider-vertical"></div>
-                <div><p class="content is-small column"> Published on <time>{{ entry.entry_date }}</time></p></div>
-            </div>
-        </header>
-        
-        <div class="card-content">
-            <div class="content" style="font-style: italic;">
-                {{ entry.get_content_preview }}
-            </div>
-
-            <div class="tags">
-                <div class="column">
-                    <label class="label">{{ tag.label_tag }}</label>
-                    {% for tag in entry.tags.all %}
-                        <span class="tag is-info">{{ tag }} </span>
-                    {% endfor %}
-                    <br\>
-                </div>
-        </div>
-    </div>
-    <br/>
-
+    {% include "diary/entry_list_detail.html" with entry=entry %}
 {% endfor %}
 
 {% endblock %}
