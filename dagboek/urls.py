@@ -2,9 +2,9 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 
-urlpatterns = [
+urlpatterns=[
     path('', views.home, name='home'),
-    path('about-me', views.about_me, name='about_me'),
+    path('about-dev', views.about_dev, name='about_dev'),
     path('about-meitian', views.about_meitian, name='about_meitian'),
     path('admin', admin.site.urls),
     path('avatar/', include('avatar.urls')),

@@ -12,13 +12,13 @@ from .models import CustomUser
 from .custom_auth_backend import *
 
 class CustomUserCreateView(CreateView):
-    model = CustomUser
-    form_class = CustomUserCreationForm
-    template_name = 'user/signup.html'
-    success_url = settings.LOGIN_REDIRECT_URL
+    model=CustomUser
+    form_class=CustomUserCreationForm
+    template_name='user/signup.html'
+    success_url=settings.LOGIN_REDIRECT_URL
 
     def form_valid(self, form):
-        user = form.save()
+        user=form.save()
 
         if user is not None:
             login(self.request, user)
@@ -27,11 +27,11 @@ class CustomUserCreateView(CreateView):
         return redirect(self.success_url)
 
 class CustomSigninView(views.LoginView):
-    template_name = 'user/signin.html'
-    redirect_authenticated_user = True
+    template_name='user/signin.html'
+    redirect_authenticated_user=True
 
 class CustomSignOutView(views.LogoutView):
-    template_name = 'user/signout.html'
+    template_name='user/signout.html'
     
     def form_valid(self, form):
         remove_user_and_token(request)
@@ -41,8 +41,8 @@ class CustomSignOutView(views.LogoutView):
     #     logout(request)
 
 def msallogin(request):
-    msal_instance = MSALAuthBackend() 
-    auth_app = get_msal_app()
+    msal_instance=MSALAuthBackend() 
+    auth_app=get_msal_app()
 
     # Redirect to the Azure sign-in page
     return msal_instance.init_auth(request, auth_app)
@@ -50,8 +50,8 @@ def msallogin(request):
 def callback(request):
 
     #TODO: if msal
-    auth_code = request.GET.get('code')
-    auth_app = get_msal_app()
+    auth_code=request.GET.get('code')
+    auth_app=get_msal_app()
 
-    msal_instance = MSALAuthBackend() 
+    msal_instance=MSALAuthBackend() 
     msal_instance.authenticate(request, auth_app, auth_code=auth_code)

@@ -14,16 +14,16 @@ class UserManager(AbstractUserManager):
     pass
 
 class CustomUser(AbstractUser):
-    username = models.CharField(unique=True, max_length=80)
-    email = models.EmailField(unique=True, max_length=254)
-    # user_auth_type = models.CharField(choices = )
-    # avatar = AvatarField(upload_to='avatars/', default='')
+    username=models.CharField(unique=True, max_length=80)
+    email=models.EmailField(unique=True, max_length=254)
+    # user_auth_type=models.CharField(choices=)
+    # avatar=AvatarField(upload_to='avatars/', default='')
 
-    first_name = models.CharField(blank=True, max_length=80)
-    last_name = models.CharField(blank=True, max_length=80)
-    # timezone = 
-    birthdate =  models.DateField(blank=True, null=True)
-    # preferred_language = models.
+    first_name=models.CharField(blank=True, max_length=80)
+    last_name=models.CharField(blank=True, max_length=80)
+    # timezone=
+    birthdate= models.DateField(blank=True, null=True)
+    # preferred_language=models.
     def __str__(self) -> str:
         return self.username
 
@@ -34,6 +34,6 @@ class CustomUser(AbstractUser):
     
 
 # class Profile(models.Model):
-#     user = models.OneToOneField(CustomUser)
-#     avatar = models.ImageField
+#     user=models.OneToOneField(CustomUser)
+#     avatar=models.ImageField
         

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <head>
   {% load static %}
-  {% load django_simple_bulma %}
-  {% bulma %}
+  {% load bulma_tags %}
   {% load avatar_tags %}
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
@@ -32,9 +31,9 @@
             <a class="navbar-link" href="{% url 'diary:entry_list' %}">
               Diary
             </a>
-            <div class="navbar  -dropdown">
-              <a class="navbar-item" href="{% url 'about_me' %}">
-                About me
+            <div class="navbar-item">
+              <a class="navbar-item" href="{% url 'diary:entry_create' %}">
+                New entry
               </a>
             </div>
           </div>
@@ -43,15 +42,10 @@
           <a class="navbar-item">
             Documentation
           </a>
-          <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-item">
             <a class="navbar-link">
               About
             </a>
-            <div class="navbar-dropdown">
-              <a class="navbar-item" href="{% url 'about_me' %}">
-                About me
-              </a>
-            </div>
           </div>
 
           <div class="navbar-item has-dropdown is-hoverable">

@@ -1,22 +1,24 @@
-
 <!DOCTYPE html>
+
 <head>
-{% extends 'diary/child.html' %}
-{% block title %}{% include "head.html" with title='entry: {{ entry.title }}' %}{% endblock %}
+    {% extends 'diary/child.html' %}
+    {% block title %}{% include "head.html" with title='entry: {{ entry.title }}' %}{% endblock %}
 </head>
 
 {% block child_content %}
-<div class="columns">
-    <div class="button column">
-
+<div class="entry-detail-container">
+    {% if previous %}
+    <div class="button column" style="grid-column-start: 1; text-align: center;">
+        <a href="{% url 'diary:entry_detail' previous %}">Prev</a>
     </div>
-    <div class="card column">
+    {% endif %}
+    <div class="card column" style="grid-column-start: 2; text-align: center;">
         <header class="card-header">
             <div class="card-header-title">
                 {{ entry.title }}
             </div>
         </header>
-        
+
         <div class="card-content">
             <div class="content" style="font-style: italic;">
                 {{ entry.content }}
@@ -26,17 +28,36 @@
                 <div class="column">
                     <label class="label">{{ tag.label_tag }}</label>
                     {% for tag in entry.tags.all %}
-                        <span class="tag is-info">{{ tag }} </span>
+                    <span class="tag is-info">{{ tag }} </span>
                     {% endfor %}
                     <br\>
                 </div>
                 <div class="is-divider-vertical"></div>
-                <div><p class="content is-small column"> Published on <time>{{ entry.entry_date }}</time></p></div>
+                <div>
+                    <p class="content is-small column"> Published on <time>{{ entry.entry_date }}</time></p>
+                </div>
+                {% if entry.entry_date != entry.update_date %}
+                <div>
+                    <p class="content is-small column"> Updated on <time>{{ entry.update_date }}</time></p>
+                </div>
+                {% endif %}
             </div>
         </div>
+        <a href="{% url 'diary:entry_update' entry.id %}">
+            <button>Edit</button>
+        </a>
+        <a href="{% url 'diary:entry_delete' entry.id %}">
+            <button>Delete</button>
+        </a>
     </div>
-    <div class="button column">
-        
+    {% if next %}
+    <div class="button column" style="grid-column-start: 3; text-align: center;">
+        <a href="{% url 'diary:entry_detail' next %}">Next</a>
     </div>
+    {% else %}
+    <div class="button column" style="grid-column-start: 3; text-align: center;">
+        <a href="{% url 'diary:entry_create'%}">New</a>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

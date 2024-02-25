@@ -3,25 +3,25 @@
 {% block child_content %}
 
 <body>
-  <section class="section">
+  <section class="section entry-detail-container">
     <div class="container">
       <form method="post">
         {% csrf_token %}
         <div class="field">
           <p class="control">
-            <input id="title" class="input" type="text" name="title" placeholder="{{ form.title.label }}">
+            <input id="title" class="input" type="text" name="title" placeholder="{{ form.title.label }}" value="{{ entry.title }}">
           </p>
         </div>
 
         <div class="field">
           <p class="control">
             <textarea id="content" class="textarea" type="text" name="content" rows=15
-              placeholder="{{ form.content.label }}"></textarea>
+              placeholder="{{ form.content.label }}"> {{ entry.content }} </textarea>
           </p>
         </div>
 
         <div class="tags">
-          <input id="tags" type="text" name="tags" placeholder="{{ form.tags.label }}">
+          <input id="tags" type="text" name="tags" placeholder="{{ form.tags.label }}" value="{{ entry.tags.all | join:', ' }}">
         </div>
 
         <div class="buttons"><button class="button is-info" type="submit">Save</button></div>

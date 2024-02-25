@@ -1,13 +1,31 @@
 <!DOCTYPE html>
+
 <head>
-{% extends 'diary/child.html' %}
-{% block title %}{% include "head.html" with title='entries' %}{% endblock %}
+    {% extends 'diary/child.html' %}
+    {% block title %}{% include "head.html" with title='entries' %}{% endblock %}
 </head>
 
 {% block child_content %}
 
-{% for entry in object_list %}
-    {% include "diary/entry_list_detail.html" with entry=entry %}
+{% for entry in entries %}
+{% include 'diary/entry_list_detail.html' with entry=entry %}
 {% endfor %}
 
+<div class="pagination">
+    <span class="step-links">
+        {% if entries.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ entries.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ entries.number }} of {{ entries.paginator.num_pages }}
+        </span>
+
+        {% if entries.has_next %}
+        <a href="?page={{ entries.next_page_number }}">next</a>
+        <a href="?page={{ entries.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}
