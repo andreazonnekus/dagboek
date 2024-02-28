@@ -10,5 +10,6 @@ urlpatterns=[
     path('msallogin', views.msallogin, name='msal_login'),
     path('callback', views.callback, name='callback'),
     path('signup', views.CustomUserCreateView.as_view(), name='signup'),
+    path('', include('django_sso.sso_service.urls')),
     # TODO: replacement for all default auth views
 ]

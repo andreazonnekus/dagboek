@@ -14,13 +14,16 @@ BASE_DIR=Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY='django-insecure-orgs1e$)4vb%6#uh_)=e%n_3-u(^*_jrd^*@qev2or9n66*-fz'
+SECRET_KEY=os.environ.get("KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG=True
 
-ALLOWED_HOSTS=[ 'localhost' ]
-# Application definition
+ALLOWED_HOSTS=[ 'localhost', '127.0.0.1' ]
+
+SECURE_SSL_REDIRECT=True
+SESSION_COOKIE_SECURE=True
+CSRF_COOKIE_SECURE=True
 
 INSTALLED_APPS=[
     'django.contrib.admin',
@@ -29,8 +32,10 @@ INSTALLED_APPS=[
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bulma',
     'django_extensions',
+    'django_sso.sso_service',
+    'mfa',
+    'bulma',
     'avatar',
     'taggit',
     'diary',
@@ -108,7 +113,6 @@ DATE_INPUT_FORMATS='%d/%m/%Y'
 TIME_ZONE='Australia/Perth'
 
 USE_I18N=True
-
 USE_TZ=True
 
 AUTH_USER_MODEL='user.CustomUser'
@@ -124,12 +128,11 @@ STATICFILES_DIRS=[
     BASE_DIR / 'assets'
 ]
 
-STATICFILE_FINDERS=[
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-
-    'django_simple_bulma.finders.SimpleBulmaFinder'
-]
+# STATICFILE_FINDERS=[
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#     'django_simple_bulma.finders.SimpleBulmaFinder'
+# ]
 
 LOGIN_URL='user:signin'
 LOGIN_REDIRECT_URL='diary:entry_list'
@@ -139,6 +142,15 @@ NAVBAR_IMG=os.path.join('img', 'peng.png')
 AVATAR_DEFAULT_URL=os.path.join('img', 'avatars', 'peng_back.png')
 
 BULMA_SETTINGS={ "extensions": [ 'all' ] }
+
+SSO_URL=os.environ.get("SSO_URL")
+SSO_TOKEN=os.environ.get("SSO_TOKEN")
+
+SSO = {
+    'ROOT': SSO_URL,
+	'TOKEN': SSO_TOKEN,
+    # 'EVENT_ACCEPTOR_CLASS': 'project.my_overrides.MySSOEventAcceptor'
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -150,3 +162,4 @@ APP_ID=os.environ.get("APP_ID")
 APP_SECRET=os.environ.get("APP_SECRET")
 APP_SCOPES=os.environ.get("SCOPES").split(",")
 REDIRECT_URL=os.environ.get("REDIRECT_URL")
+
