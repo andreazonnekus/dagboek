@@ -34,6 +34,7 @@ INSTALLED_APPS=[
     'django.contrib.staticfiles',
     'django_extensions',
     'django_sso.sso_service',
+    'django_simple_bulma',
     'mfa',
     'bulma',
     'avatar',
@@ -124,15 +125,15 @@ STATIC_URL='/static/'
 
 STATIC_ROOT=os.path.join(BASE_DIR, "static")
 
-STATICFILES_DIRS=[
-    BASE_DIR / 'assets'
-]
-
-# STATICFILE_FINDERS=[
-#     'django.contrib.staticfiles.finders.FileSystemFinder',
-#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#     'django_simple_bulma.finders.SimpleBulmaFinder'
+# STATICFILES_DIRS=[
+#     BASE_DIR / 'static'
 # ]
+
+STATICFILE_FINDERS=[
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django_simple_bulma.finders.SimpleBulmaFinder'
+]
 
 LOGIN_URL='user:signin'
 LOGIN_REDIRECT_URL='diary:entry_list'

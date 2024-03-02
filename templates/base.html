@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <head>
   {% load static %}
-  {% load bulma_tags %}
-  {% load avatar_tags %}
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  {% load django_simple_bulma %}
+  {% bulma %}
+  {% font_awesome %}
+  {% load avatar_tags %}
 </head>
 
 <body>
@@ -95,6 +97,7 @@
   Content goes here...
   {% endblock content %}
 </body>
+<div class="footer-img">
 <footer class="custom-footer">
   <div class="has-text-centered">
     <p>
@@ -102,3 +105,4 @@
     </p>
   </div>
 </footer>
+</div>
