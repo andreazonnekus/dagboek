@@ -16,8 +16,8 @@ class EntryListView(LoginRequiredMixin, ListView):
   def get(self, request, *args, **kwargs):
     entries=Entry.objects.filter(author=self.request.user.id).order_by('-id')
 
-    paginator=Paginator(entries,10)
-    page=request.GET.get('page',1)
+    paginator=Paginator(entries, 8)
+    page=request.GET.get('page', 1)
 
     new_page=paginator.get_page(page)
     return render(request, 'diary/entry_list.html', {'entries': new_page})

@@ -34,8 +34,8 @@ class CustomSignOutView(views.LogoutView):
     template_name='user/signout.html'
     
     def form_valid(self, form):
-        remove_user_and_token(request)
-        logout(request)
+        remove_user_and_token(self.request)
+        logout(self.request)
     # def post(self, request, *args, **kwargs):
     #     remove_user_and_token(request)
     #     logout(request)

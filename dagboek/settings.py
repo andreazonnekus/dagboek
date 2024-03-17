@@ -36,12 +36,16 @@ INSTALLED_APPS=[
     'django_sso.sso_service',
     'django_simple_bulma',
     'mfa',
-    'bulma',
     'avatar',
     'taggit',
     'diary',
     'user',
 ]
+
+BULMA_SETTINGS = {
+  "extensions": [
+      'all'
+  ]}
 
 MIDDLEWARE=[
     'django.middleware.security.SecurityMiddleware',
@@ -125,11 +129,11 @@ STATIC_URL='/static/'
 
 STATIC_ROOT=os.path.join(BASE_DIR, "static")
 
-# STATICFILES_DIRS=[
-#     BASE_DIR / 'static'
-# ]
+STATICFILES_DIRS=[
+    BASE_DIR / 'assets'
+]
 
-STATICFILE_FINDERS=[
+STATICFILES_FINDERS=[
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django_simple_bulma.finders.SimpleBulmaFinder'

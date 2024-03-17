@@ -9,7 +9,8 @@
         {% csrf_token %}
         <div class="field">
           <p class="control">
-            <input id="title" class="input" type="text" name="title" placeholder="{{ form.title.label }}" value="{{ entry.title }}">
+            <input id="title" class="input" type="text" name="title" placeholder="{{ form.title.label }}"
+              value="{{ entry.title }}">
           </p>
         </div>
 
@@ -21,7 +22,8 @@
         </div>
 
         <div class="tags">
-          <input id="tags" type="text" name="tags" placeholder="{{ form.tags.label }}" value="{{ entry.tags.all | join:', ' }}">
+          <input id="tags" type="text" name="tags" placeholder="{{ form.tags.label }}"
+            value="{{ entry.tags.all | join:', ' }}">
         </div>
 
         <div class="buttons"><button class="button is-info" type="submit">Save</button></div>
@@ -34,16 +36,18 @@
       </ol>
       {% endif %}
       {% if entry %}
-      <a href="{% url 'diary:entry_detail' entry.id %}">
-        <button>Cancel</button>
-      </a>
-      <a href="{% url 'diary:entry_delete' entry.id %}">
-        <button>Delete</button>
-      </a>
-      {% else %}
-      <a href="{% url 'diary:entry_list' %}">
-        <button>Back</button>
-      </a>
+      <div class="buttons">
+        <a href="{% url 'diary:entry_detail' entry.id %}">
+          <button class="button is-info" >Cancel</button>
+        </a>
+        <a href="{% url 'diary:entry_delete' entry.id %}">
+          <button class="button is-info" >Delete</button>
+        </a>
+        {% else %}
+        <a href="{% url 'diary:entry_list' %}">
+          <button class="button is-info" >Back</button>
+        </a>
+      </div>
       {% endif %}
     </div>
   </section>
