@@ -1,10 +1,11 @@
+from django.http import HttpResponse
 import msal
 
 from django.core.cache import cache
 from django.contrib import messages
 from django.urls import reverse
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth import authenticate, login, logout, views
 
 from .forms import *
@@ -12,13 +13,13 @@ from .models import CustomUser
 from .custom_auth_backend import *
 
 class CustomUserCreateView(CreateView):
-    model=CustomUser
-    form_class=CustomUserCreationForm
-    template_name='user/signup.html'
-    success_url=settings.LOGIN_REDIRECT_URL
+    model = CustomUser
+    form_class = CustomUserCreationForm
+    template_name = 'user/signup.html'
+    success_url = settings.LOGIN_REDIRECT_URL
 
     def form_valid(self, form):
-        user=form.save()
+        user = form.save()
 
         if user is not None:
             login(self.request, user)
@@ -26,7 +27,28 @@ class CustomUserCreateView(CreateView):
 
         return redirect(self.success_url)
 
+class CustomUserProfileView(UpdateView):
+    model = CustomUser
+    form_class = CustomUserChangeForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(request.GET)
+        print(self.request.user.id)
+        user = CustomUser.objects.filter(pk = self.request.user.id)
+        return render(request, 'user/profile.html', {'form': form, 'user': user})
+
+class CustomUserPasswordChangeView(views.PasswordChangeView):
+    model = CustomUser
+    form_class = CustomeUserPasswordChangeForm
+
+    def form_valid(self, form) -> HttpResponse:
+        return super().form_valid(form)
+        
+class CustomUserPasswordResetView(views.PasswordResetView):
+    pass
+
 class CustomSigninView(views.LoginView):
+    form_class = CustomeLoginFrom
     template_name='user/signin.html'
     redirect_authenticated_user=True
 
@@ -36,9 +58,6 @@ class CustomSignOutView(views.LogoutView):
     def form_valid(self, form):
         remove_user_and_token(self.request)
         logout(self.request)
-    # def post(self, request, *args, **kwargs):
-    #     remove_user_and_token(request)
-    #     logout(request)
 
 def msallogin(request):
     msal_instance=MSALAuthBackend() 

@@ -1,14 +1,9 @@
+from django.contrib.auth.models import AbstractUser, UserManager as AbstractUserManager
+from django.urls import reverse
 from distutils.command.upload import upload
 from email.policy import default
-from time import timezone
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager as AbstractUserManager
-from avatar.models import Avatar
-from django.core.files import File
-from django.conf import settings
-from avatar.models import AvatarField
-
-import msal, requests, json
+from time import timezone
 
 class UserManager(AbstractUserManager):
     pass
@@ -19,18 +14,16 @@ class CustomUser(AbstractUser):
     # user_auth_type=models.CharField(choices=)
     # avatar=AvatarField(upload_to='avatars/', default='')
 
-    first_name=models.CharField(blank=True, max_length=80)
-    last_name=models.CharField(blank=True, max_length=80)
     # timezone=
-    birthdate= models.DateField(blank=True, null=True)
+    can_use_timezone = models.BooleanField(default = True)
+    birthdate = models.DateField(blank=True, null=True)
+
     # preferred_language=models.
     def __str__(self) -> str:
         return self.username
 
-    # def get_absolute_url(self):
-    #     print(self)
-    #     from django.urls import reverse
-    #     return reverse('user:signin')
+    def get_absolute_url(self):
+        return reverse('user:profile', kwargs={'pk': self.pk})
     
 
 # class Profile(models.Model):

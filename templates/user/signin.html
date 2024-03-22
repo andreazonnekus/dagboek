@@ -22,20 +22,20 @@
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
-                  <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
-                  </span>
                 </p>
               </div>
               <div class="field">
-                <p class="control has-icons-left">
+                <p class="control has-icons-left has-icons-right">
                   <input id="password" class="input" type="password" name="password" placeholder="Password">
                   <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                   </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-eye-slash"></i>
+                  </span>
                 </p>
               </div>
-              <input  class="button is-primary" type="submit" value="Log In">
+              <input class="button is-primary is-rounded" type="submit" value="Log In">
             </form>
           </div>
         </div>
@@ -51,7 +51,7 @@
         <div class="login-card">
           <form action="{% url 'user:msal_login' %}" method="post">
             {% csrf_token %}
-            <div class="buttons"><button class="button is-info" type="submit">MSFT</button></div>
+            <div class="buttons"><button class="button is-info is-rounded" type="submit">MSFT</button></div>
           </form>
         </div>
       </div>

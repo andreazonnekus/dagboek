@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
@@ -10,22 +11,23 @@
 
 <body>
   <div>
-    <nav class="navbar mt-4 is-active is-transparent is-info" role="navigation" aria-label="main navigation">
+    <nav class="navbar mt-4 is-transparent" role="navigation" aria-label="main navigation"
+      style="background: transparent;">
       <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'home' %}">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+          <img src="{% static 'img/logo.svg' %}" width="112" height="28">
         </a>
         <a class="navbar-item">
           Home
         </a>
       </div>
-      
+
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
-      
+
       <div class="navbar-menu">
         <div class="navbar-start">
           <div class="navbar-item has-dropdown is-hoverable">
@@ -33,14 +35,14 @@
             <a class="navbar-link" href="{% url 'diary:entry_list' %}">
               Diary
             </a>
-            <div class="navbar-item">
+            <div class="navbar-dropdown">
               <a class="navbar-item" href="{% url 'diary:entry_create' %}">
                 New entry
               </a>
             </div>
           </div>
           {% endif %}
-          
+
           <a class="navbar-item">
             Documentation
           </a>
@@ -49,7 +51,6 @@
               About
             </a>
           </div>
-
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">
               More
@@ -61,37 +62,45 @@
             </div>
           </div>
         </div>
-
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              {% if request.user.is_authenticated %}
-              <form action="{% url 'user:signout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" value="logout" class="button is-primary">Logout</button>
-              </form>
-              {% else %}
-              <a class="button is-primary" href="{% url 'user:signup' %}">
-                <strong>Sign up</strong>
-              </a>
-              <a class="button is-light" href="{% url 'user:signin' %}">
-                Sign in
-              </a>
-              {% endif %}
-            </div>
-          </div>
-          {% if request.user.is_authenticated %}
-          <figure class="image is-128x128">{% avatar user class="is-rounded" %}
-          </figure>
-          {% else %}
-          <figure class="image is-128x128">{% avatar avatar class="is-rounded" %}
-          </figure>
-          {% endif %}
-        </div>
       </div>
-    </nav>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            {% if request.user.is_authenticated %}
+            <form action="{% url 'user:signout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" value="logout" class="button is-primary is-rounded">Logout</button>
+            </form>
+            {% else %}
+            <a class="button is-primary is-rounded" href="{% url 'user:signup' %}">
+              <strong>Sign up</strong>
+            </a>
+            <a class="button is-light is-rounded" href="{% url 'user:signin' %}">
+              Sign in
+            </a>
+            {% endif %}
+          </div>
+        </div>
+        <figure class="image is-128x128">
+          {% if request.user.is_authenticated %}
+            <a href="{% url 'user:profile' request.user.id %}">
+              {% if request.user|has_avatar %}
+                {% avatar user class="is-rounded" %}
+              {% else %}
+                {% avatar avatar class="is-rounded" %}
+              {% endif %}
+              </a>
+              {% else %}
+                {% avatar avatar class="is-rounded" %}
+            {% endif %}
+        </figure>
+      </div>
+  </div>
+  </nav>
   </div>
 </body>
+
 <body>
   {% block content %}
   Content goes here...

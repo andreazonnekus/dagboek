@@ -10,7 +10,7 @@
     <body>
       <section class="section">
         <div class="container">
-          <h1 class="title">{{ request.user.email }}
+          <h1 class="title">Welcome {% if request.user.is_authenticated %}back {{ request.user.username }}{% endif %}
           </h1>
           <p class="paragraph">
             Write on the go!

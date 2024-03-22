@@ -27,12 +27,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='customuser',
-            name='first_name',
+            name='firstname',
             field=models.CharField(blank=True, max_length=80),
         ),
         migrations.AlterField(
             model_name='customuser',
-            name='last_name',
+            name='surname',
             field=models.CharField(blank=True, max_length=80),
         ),
         migrations.AlterField(
